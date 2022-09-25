@@ -53,6 +53,40 @@ func (r *Reg) AddArgument(name string, x any) *Reg {
 	return r
 }
 
+// GetArgument returns argument with name.
+func (r *Reg) GetArgument(name string) (any, bool) {
+	r.mutex.RLock()
+	defer r.mutex.RUnlock()
+
+	v, ok := r.args[name]
+
+	return v, ok
+}
+
+// DeleteArgument deletes argument with name.
+func (r *Reg) DeleteArgument(name string) *Reg {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	delete(r.args, name)
+
+	return r
+}
+
+// GetArgumentNames returns all argument names.
+func (r *Reg) GetArgumentNames() []string {
+	r.mutex.RLock()
+	defer r.mutex.RUnlock()
+
+	names := make([]string, 0, len(r.args))
+
+	for name := range r.args {
+		names = append(names, name)
+	}
+
+	return names
+}
+
 // AddFunction adds function to registry with name.
 //
 // If name is empty, function name will be used.
@@ -76,6 +110,40 @@ func (r *Reg) AddFunction(name string, fn any, args ...string) *Reg {
 	}
 
 	return r
+}
+
+// GetFunction returns function with name.
+func (r *Reg) GetFunction(name string) (Func, bool) {
+	r.mutex.RLock()
+	defer r.mutex.RUnlock()
+
+	v, ok := r.fn[name]
+
+	return v, ok
+}
+
+// RemoveFunction removes function with name.
+func (r *Reg) RemoveFunction(name string) *Reg {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	delete(r.fn, name)
+
+	return r
+}
+
+// GetFunctionNames returns all function names.
+func (r *Reg) GetFunctionNames() []string {
+	r.mutex.RLock()
+	defer r.mutex.RUnlock()
+
+	names := make([]string, 0, len(r.fn))
+
+	for name := range r.fn {
+		names = append(names, name)
+	}
+
+	return names
 }
 
 // Call calls function with name and uses already registered arguments.
