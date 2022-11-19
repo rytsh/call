@@ -1,0 +1,14 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{ $mainStyle := resources.Get "style/main.scss" | toCSS | postCSS }}
+    {{ $mainStyle := $mainStyle | minify | fingerprint | resources.PostProcess }}
+    <link rel="stylesheet" href=".{{ $mainStyle.RelPermalink }}" integrity="{{ $mainStyle.Data.Integrity }}">
+    <link rel="icon" type="image/png" href="./logo/favicon.png">
+    {{ $title := print .Site.Title " | " .Title }}
+    {{ if .IsHome }}{{ $title = .Site.Title }}{{ end }}
+    <title>{{ $title }}</title>
+
+    {{ $jsCopy := resources.Get "js/copy_button.js" | minify | fingerprint }}
+    <script src=".{{ $jsCopy.RelPermalink }}" integrity="{{ $jsCopy.Data.Integrity }}" defer></script>
+</head>
