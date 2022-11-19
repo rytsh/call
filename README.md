@@ -1,6 +1,10 @@
-# Call
+![call](https://raw.githubusercontent.com/rytsh/call/pages/static/logo/call.svg)
 
-Dependency injection library based on registry arguments and functions.
+![Sonar Coverage](https://img.shields.io/sonar/coverage/rytsh_call?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rytsh/call/Test?logo=github&style=flat-square&label=ci)](https://github.com/rytsh/call/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rytsh/call?style=flat-square)](https://goreportcard.com/report/github.com/rytsh/call)
+
+__Call__ dependency injection library based on registry arguments and functions.
 
 ## Usage
 
