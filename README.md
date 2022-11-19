@@ -1,6 +1,6 @@
 ![call](https://raw.githubusercontent.com/rytsh/call/pages/static/logo/call.svg)
 
-![Sonar Coverage](https://img.shields.io/sonar/coverage/rytsh_call?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
+[![Sonar Coverage](https://img.shields.io/sonar/coverage/rytsh_call?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/summary/overall?id=rytsh_call)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rytsh/call/Test?logo=github&style=flat-square&label=ci)](https://github.com/rytsh/call/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rytsh/call?style=flat-square)](https://goreportcard.com/report/github.com/rytsh/call)
 
