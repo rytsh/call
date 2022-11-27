@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// OptionGetIndex returns value by index from slice, array or map.
 func OptionGetIndex(v []reflect.Value, args ...string) ([]reflect.Value, error) {
 	if len(v) == 0 {
 		return nil, fmt.Errorf("no value")
@@ -46,14 +47,22 @@ func OptionGetIndex(v []reflect.Value, args ...string) ([]reflect.Value, error) 
 	}
 }
 
+// OptionVariadic returns variadic value, value should be slice,array or map.
+// If map type it turns into slice of values.
 func OptionVariadic(v []reflect.Value, _ ...string) ([]reflect.Value, error) {
+	if len(v) == 0 {
+		return nil, fmt.Errorf("no value")
+	}
+
 	if len(v) > 1 {
 		return v, nil
 	}
 
 	// check v[0] slice or array or map
-	if v[0].Kind() != reflect.Slice && v[0].Kind() != reflect.Array && v[0].Kind() != reflect.Map {
-		return nil, fmt.Errorf("not slice or array")
+	switch v[0].Kind() {
+	case reflect.Slice, reflect.Array, reflect.Map:
+	default:
+		return nil, fmt.Errorf("not related type for variadic")
 	}
 
 	// get slice

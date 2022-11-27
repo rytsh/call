@@ -7,6 +7,11 @@ import (
 	"sync"
 )
 
+// Options is enable to modify arguments when calling functions.
+//
+// Use options like this first value name after that `:` seperated and pass option arguments with `=`.
+//
+//	`hababam:option1=1,2,3;option2=value2`.
 type Options struct {
 	option map[string]func([]reflect.Value, ...string) ([]reflect.Value, error)
 	mutex  sync.RWMutex
@@ -57,7 +62,7 @@ func (o *Options) GetOption(name string) (func([]reflect.Value, ...string) ([]re
 	return fn, ok
 }
 
-func (o *Options) VisitOptions(arg string, v any) (error, []reflect.Value) {
+func (o *Options) VisitOptions(arg string, v any) ([]reflect.Value, error) {
 	var err error
 
 	vValue := []reflect.Value{reflect.ValueOf(v)}
@@ -74,14 +79,14 @@ func (o *Options) VisitOptions(arg string, v any) (error, []reflect.Value) {
 			optVariables = strings.Split(opt[1], ",")
 		}
 
-		fn, ok := o.GetOption(optName)
+		optionFn, ok := o.GetOption(optName)
 		if !ok {
-			return fmt.Errorf("option %s not found", optName), nil
+			return nil, fmt.Errorf("option %s not found", optName)
 		}
 
-		vValue, err = fn(vValue, optVariables...)
+		vValue, err = optionFn(vValue, optVariables...)
 		if err != nil {
-			return fmt.Errorf("%s; %w", optName, err), nil
+			return nil, fmt.Errorf("%s; %w", optName, err)
 		}
 
 		if vValue == nil {
@@ -89,5 +94,5 @@ func (o *Options) VisitOptions(arg string, v any) (error, []reflect.Value) {
 		}
 	}
 
-	return nil, vValue
+	return vValue, nil
 }

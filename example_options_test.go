@@ -2,6 +2,8 @@ package call_test
 
 import (
 	"fmt"
+	"reflect"
+	"strings"
 
 	"github.com/rytsh/call"
 )
@@ -92,4 +94,34 @@ func Example_options() {
 	// 7
 	// 7
 	// 5
+}
+
+func Example_newOption() {
+	myOption := call.OptionFunc{
+		Name: "addExtraValue",
+		Fn: func(args []reflect.Value, options ...string) ([]reflect.Value, error) {
+			// do something with options
+			return []reflect.Value{
+				reflect.ValueOf(fmt.Sprintf("%s+%s", args[0].Interface(), strings.Join(options, "+"))),
+			}, nil
+		},
+	}
+	// create registry
+	reg := call.NewReg(myOption).
+		AddArgument("arg", "check").
+		AddFunction("print", func(v string) string {
+			return v
+		})
+
+	// call function
+	returns, err := reg.CallWithArgs("print", "arg:addExtraValue=1,2,3")
+	if err != nil {
+		fmt.Println(err)
+
+		return
+	}
+
+	fmt.Println(returns[0])
+	// Output:
+	// check+1+2+3
 }
