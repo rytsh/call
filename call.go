@@ -55,16 +55,24 @@ func (r *Reg) CallWithArgs(name string, args ...string) ([]any, error) {
 	if f.Fn.Type().IsVariadic() {
 		fnArgType := f.Fn.Type().In(f.Fn.Type().NumIn() - 1).Elem()
 		for i := f.Fn.Type().NumIn() - 1; i < len(fnArgs); i++ {
-			argType := fnArgs[i].Type()
-			if !argType.AssignableTo(fnArgType) {
-				return nil, fmt.Errorf("variadic function: index %d argument %s type mismatch with function %s type", i, argType, fnArgType)
+			if fnArgs[i].IsValid() {
+				argType := fnArgs[i].Type()
+				if !argType.AssignableTo(fnArgType) {
+					return nil, fmt.Errorf("variadic function: index %d argument %s type mismatch with function %s type", i, argType, fnArgType)
+				}
+			} else {
+				fnArgs[i] = reflect.Zero(fnArgType)
 			}
 		}
 	} else if f.Fn.Type().NumIn() > 0 {
 		fnArgType := f.Fn.Type().In(f.Fn.Type().NumIn() - 1)
-		argType := fnArgs[len(fnArgs)-1].Type()
-		if !argType.AssignableTo(fnArgType) {
-			return nil, fmt.Errorf("function: index %d argument %s type mismatch with function %s type", len(fnArgs)-1, argType, fnArgType)
+		if fnArgs[len(fnArgs)-1].IsValid() {
+			argType := fnArgs[len(fnArgs)-1].Type()
+			if !argType.AssignableTo(fnArgType) {
+				return nil, fmt.Errorf("function: index %d argument %s type mismatch with function %s type", len(fnArgs)-1, argType, fnArgType)
+			}
+		} else {
+			fnArgs[len(fnArgs)-1] = reflect.Zero(fnArgType)
 		}
 	}
 

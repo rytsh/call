@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/rytsh/call?color=red&style=flat-square)](https://raw.githubusercontent.com/rytsh/call/main/LICENSE)
 [![Sonar Coverage](https://img.shields.io/sonar/coverage/rytsh_call?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/summary/overall?id=rytsh_call)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rytsh/call/Test?logo=github&style=flat-square&label=ci)](https://github.com/rytsh/call/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rytsh/call/test.yml?branch=main&logo=github&style=flat-square&label=ci)](https://github.com/rytsh/call/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rytsh/call?style=flat-square)](https://goreportcard.com/report/github.com/rytsh/call)
 [![Go PKG](https://raw.githubusercontent.com/rytsh/call/pages/assets/reference.svg)](https://pkg.go.dev/github.com/rytsh/call)
 [![Web](https://img.shields.io/badge/web-document-blueviolet?style=flat-square)](https://rytsh.github.io/call/)

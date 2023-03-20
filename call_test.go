@@ -111,6 +111,48 @@ func TestReg_CallWithArgs(t *testing.T) {
 			wantErr:    true,
 			wantErrStr: "function: index 2 argument int type mismatch with function string type",
 		},
+		{
+			name: "argument nil",
+			modify: func(r *Reg) {
+				r.AddFunction("test", func(v string, _ interface{}) string { return v })
+				r.AddArgument("test-1", "test-1").AddArgument("test-2", nil)
+			},
+			args: args{
+				name: "test",
+				args: []string{"test-1", "test-2"},
+			},
+			want: []any{
+				"test-1",
+			},
+		},
+		{
+			name: "variadic functions nil",
+			modify: func(r *Reg) {
+				r.AddFunction("test", func(v string, _ ...interface{}) string { return v })
+				r.AddArgument("test-1", "test-1").AddArgument("test-2", nil)
+			},
+			args: args{
+				name: "test",
+				args: []string{"test-1", "test-2"},
+			},
+			want: []any{
+				"test-1",
+			},
+		},
+		{
+			name: "variadic functions nil without value",
+			modify: func(r *Reg) {
+				r.AddFunction("test", func(v string, _ ...interface{}) string { return v })
+				r.AddArgument("test-1", "test-1")
+			},
+			args: args{
+				name: "test",
+				args: []string{"test-1"},
+			},
+			want: []any{
+				"test-1",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
